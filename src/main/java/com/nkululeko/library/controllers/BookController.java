@@ -1,8 +1,10 @@
 package com.nkululeko.library.controllers;
 
-import java.util.List;
+//import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,11 +46,19 @@ public class BookController {
     return new ResponseEntity<>(response, HttpStatus.CREATED);
   }
   
+//  @GetMapping(path = "/books")
+//  public ResponseEntity<List<BookDto>> findAll () {
+//    List<Book> books = bookService.findAll();
+//    List<BookDto> response = books.stream().map(bookMapper::mapTo).toList();
+//
+//    return new ResponseEntity<>(response, HttpStatus.OK);
+//  }
+  
   @GetMapping(path = "/books")
-  public ResponseEntity<List<BookDto>> findAll () {
-    List<Book> books = bookService.findAll();
-    List<BookDto> response = books.stream().map(bookMapper::mapTo).toList();
-
+  public ResponseEntity<Page<BookDto>> findAll (Pageable pageable) {
+    Page<Book> books = bookService.findAll(pageable);
+    Page<BookDto> response = books.map(bookMapper::mapTo);
+    
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
   

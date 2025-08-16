@@ -1,9 +1,11 @@
 package com.nkululeko.library.controllers;
 
-import java.util.List;
+//import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,14 +42,22 @@ public class AuthorController {
     return new ResponseEntity<>(authorMapper.mapTo(savedAuthor), HttpStatus.CREATED);
   }
   
+//  @GetMapping(path = "/authors")
+//  public ResponseEntity<List<AuthorDto>> listAuthors () {
+//    List<Author> authors = authorService.findAll();
+//    List<AuthorDto> foundAuthors = authors.stream()
+//        .map(authorMapper::mapTo)
+//        .collect(Collectors.toList());
+//    
+//    return new ResponseEntity<>(foundAuthors, HttpStatus.OK);
+//  }
+  
   @GetMapping(path = "/authors")
-  public ResponseEntity<List<AuthorDto>> listAuthors () {
-    List<Author> authors = authorService.findAll();
-    List<AuthorDto> foundAuthors = authors.stream()
-        .map(authorMapper::mapTo)
-        .collect(Collectors.toList());
+  public ResponseEntity<Page<AuthorDto>> listAuthors (Pageable pageable) {
+    Page<Author> authors = authorService.findAll(pageable);
+    Page<AuthorDto> response = authors.map(authorMapper::mapTo);
     
-    return new ResponseEntity<>(foundAuthors, HttpStatus.OK);
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
   
   @GetMapping(path = "/authors/{id}")

@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nkululeko.library.domain.entities.Book;
@@ -32,6 +34,13 @@ public class BookServiceImpl implements BookService {
 
     return StreamSupport.stream(books.spliterator(), false)
         .collect(Collectors.toList());
+  }
+  
+  @Override
+  public Page<Book> findAll (Pageable pageable) {
+    Page<Book> books = bookRepository.findAll(pageable);
+    
+    return books;
   }
 
   @Override
@@ -64,5 +73,4 @@ public class BookServiceImpl implements BookService {
   public void deleteBook (String isbn) {
     bookRepository.deleteById(isbn);
   }
-
 }

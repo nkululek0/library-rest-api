@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nkululeko.library.domain.entities.Author;
@@ -35,6 +37,13 @@ public class AuthorServiceImpl implements AuthorService {
     List<Author> authors = StreamSupport.stream(authorRepository.findAll().spliterator(), false)
         .collect(Collectors.toList());
 
+    return authors;
+  }
+
+  @Override
+  public Page<Author> findAll(Pageable pageable) {
+    Page<Author> authors = authorRepository.findAll(pageable);
+    
     return authors;
   }
 

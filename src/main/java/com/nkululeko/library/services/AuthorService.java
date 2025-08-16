@@ -3,6 +3,9 @@ package com.nkululeko.library.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.nkululeko.library.domain.entities.Author;
 
 public interface AuthorService {
@@ -10,6 +13,8 @@ public interface AuthorService {
   public Author save(Long id, Author author);
   
   public List<Author> findAll();
+  
+  public Page<Author> findAll(Pageable pageable);
   
   public Optional<Author> findOne(Long id);
   
